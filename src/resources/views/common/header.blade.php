@@ -6,8 +6,8 @@
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item @if('http://192.168.99.100'=== url()->current()) active @endif">
-                <a class="nav-link" href="/">Home</a>
+            <li class="nav-item @if(''=== str_replace(url('/'),'',request()->fullUrl())) active @endif">
+                <a class="nav-link" href="/">TOP</a>
             </li>
             <li class="nav-item @if(preg_match('/contact/', url()->current())) active @endif">
                 <a class="nav-link" href="/contact/">お問い合わせ</a>
@@ -17,7 +17,7 @@
             </li> -->
             @auth
             <li class="nav-item">
-                <a class="nav-link" href="/">aaaaa</a>
+                <a class="nav-link" href="">お問い合わせ一覧</a>
             </li>
             @endauth
         </ul>

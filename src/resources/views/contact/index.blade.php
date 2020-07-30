@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="container mt-5 mb-5">
-    <h1>お問い合わせ</h1>
+    <h2>お問い合わせ</h2>
     <p class="lead">以下の項目への入力をお願いいたします。</p>
 
     <form class="mt-4" method="POST" action="{{ route('contact.confirm') }}">

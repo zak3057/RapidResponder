@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="container mt-5 mb-5">
-    <h1>お問い合わせ完了いたしました</h1>
+    <h2>お問い合わせ完了いたしました</h2>
     <p class="lead mt-4">
         お問い合わせいただきありがとうございました。<br>
         お問い合わせを受け付けました。<br><br>
