@@ -4,17 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Comment extends Model
 {
     protected $fillable = [
         'contact_id',
-        'date_time',
+        'created_at',
+        'updated_at',
         'user_id',
         'body',
     ];
-
-    public function comments()
-    {
-        return $this->hasMany('App\Comment');
-    }
 }

@@ -14,3 +14,19 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+// お問い合わせ
+Route::get('contact', 'ContactsController@index')->name('contact.index');
+// お問い合わせ確認
+Route::post('contact/confirm', 'ContactsController@confirm')->name('contact.confirm');
+// 送信完了
+Route::post('contact/thanks', 'ContactsController@send')->name('contact.send');
+
+
+
+
+// ログイン
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

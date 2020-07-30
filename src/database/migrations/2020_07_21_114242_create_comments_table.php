@@ -16,9 +16,10 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('コメント番号');
             $table->unsignedBigInteger('contact_id')->comment('問い合わせ番号');
-            $table->dateTime('date_time')->comment('登録日');
             $table->unsignedBigInteger('user_id')->comment('ユーザー番号');
             $table->string('body', 4000)->comment('コメント');
+            $table->dateTime('created_at')->nullable()->comment('登録日');
+            $table->dateTime('updated_at')->nullable()->comment('更新日時');
 
             $table->foreign('contact_id')->references('id')->on('contacts');
             $table->foreign('user_id')->references('id')->on('users');

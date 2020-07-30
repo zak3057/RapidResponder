@@ -6,5 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
-    //
+    protected $fillable = [
+        'name',
+        'mail',
+        'tel',
+        'item',
+        'body',
+        'status',
+        'created_at',
+        'updated_at',
+        'user_id',
+    ];
+
 }

@@ -21,8 +21,9 @@ class CreateContactsTable extends Migration
             $table->string('item', 16)->comment('製品種別');
             $table->string('body', 2000)->comment('問い合わせ内容');
             $table->string('status', 16)->comment('対応状況');
-            $table->dateTime('date_time')->comment('問い合わせ日時');
             $table->unsignedBigInteger('user_id')->nullable()->comment('対応者');
+            $table->dateTime('created_at')->nullable()->comment('問い合わせ日時');
+            $table->dateTime('updated_at')->nullable()->comment('更新日時');
 
             $table->foreign('user_id')->references('id')->on('users');
         });
