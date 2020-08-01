@@ -4,7 +4,7 @@
 <div class="container mt-5 mb-5">
 
     <div class="panel panel-default">
-        <div class="panel-heading">ログインに成功しました。</div>
+        <h2>ログインに成功しました</h2>
 
         <div class="panel-body">
             @if (session('status'))
@@ -12,8 +12,6 @@
                     {{ session('status') }}
                 </div>
             @endif
-
-            <p><a href="">お問い合わせ一覧</a></p>
         </div>
     </div>
 

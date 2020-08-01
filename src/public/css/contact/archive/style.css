@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+/* スクロールバーのスタイル */
+.scrollbar {
+  width: 100%;
+  height: 10px;
+  overflow: scroll;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  margin-bottom: 0.4rem;
+}
+.scrollbar .inner {
+  width: 930px;
+  height: 1px;
+}
+.scrollbar::-webkit-scrollbar,
+.scroll-table::-webkit-scrollbar {
+  height: 10px;
+}
+.scrollbar::-webkit-scrollbar-track,
+.scroll-table::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+.scrollbar::-webkit-scrollbar-thumb,
+.scroll-table::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #e7e7e7;
+}
+
+/* nav */
+.nav-link.active {
+  pointer-events: none;
+}
+
+/* .contact-archive-table */
+.contact-archive-table {
+  overflow: scroll;
+}
+.contact-archive-table table {
+  min-width: 930px; margin-bottom:0.4rem;
+}
+.contact-archive-table thead th {
+  text-align: center;
+}
+.contact-archive-table .contact-archive-table--body {
+  width: 40%;
+  word-break: break-all;
+}
+.contact-archive-table tbody tr {
+  cursor: pointer;
+}
+.contact-archive-table tbody th {
+  vertical-align: middle;
+}
+.contact-archive-table .hover-none:hover {
+  background-color: #fff;
+  cursor: auto;
+}
