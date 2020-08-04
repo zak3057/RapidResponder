@@ -41,7 +41,7 @@
                 @else
                     @foreach ($contacts as $contact)
                     <tr>
-                        <th>{{$contact->id}}</th>
+                        <th class="contact-id">{{$contact->id}}</th>
                         <th>{{$contact->status}}</th>
                         <th>{{$contact->name}}</th>
                         <th>{{$contact->tel}}</th>
@@ -54,25 +54,6 @@
             </tbody>
         </table>
     </div>
-
-
-
-    <!-- <nav aria-label="Page navigation example mt-4">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">前へ</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-            <li class="page-item"><a class="page-link" href="#">10</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">次へ</a>
-            </li>
-        </ul>
-    </nav> -->
-
 
     <nav aria-label="Page navigation example mt-4">
         {{ $contacts->links('vendor/pagination/pagination_view') }}

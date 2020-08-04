@@ -39,3 +39,17 @@ Route::get('home', 'HomeController@index')->name('home');
 // ===================================================================================
 // お問い合わせ一覧
 Route::get('contact/archive', 'ContactArchiveController@index')->name('contact.archive.index');
+// ===================================================================================
+// お問い合わせ詳細
+
+// index
+Route::get('contact/archive/detail', 'ContactDetailController@index')->name('contact.archive.detail.index');
+// 対応開始
+Route::get('contact/archive/detail/start', 'ContactDetailController@start')->name('contact.archive.detail.start');
+// 未対応に戻す
+Route::get('contact/archive/detail/return', 'ContactDetailController@returnStatus')->name('contact.archive.detail.return');
+// 対応済み
+Route::get('contact/archive/detail/complete', 'ContactDetailController@complete')->name('contact.archive.detail.complete');
+// メッセージ送信
+Route::post('contact/archive/detail/message', 'ContactDetailController@message')->name('contact.archive.detail.message');
+// コメント登録

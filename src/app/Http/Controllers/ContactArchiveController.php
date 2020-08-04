@@ -18,7 +18,7 @@ class ContactArchiveController extends Controller
     }
 
     /**
-     * index 
+     * index
      *
      * @return void
      */
