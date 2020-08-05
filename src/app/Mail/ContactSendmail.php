@@ -41,7 +41,7 @@ class ContactSendmail extends Mailable
         return $this
             ->from('example@example.com')
             ->subject('自動送信メール')
-            ->view('contact.mail')
+            ->view('emails.contact.index')
             ->with([
                 'name' => $this->name,
                 'mail' => $this->mail,

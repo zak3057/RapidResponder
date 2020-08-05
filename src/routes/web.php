@@ -53,3 +53,4 @@ Route::get('contact/archive/detail/complete', 'ContactDetailController@complete'
 // メッセージ送信
 Route::post('contact/archive/detail/message', 'ContactDetailController@message')->name('contact.archive.detail.message');
 // コメント登録
+Route::post('contact/archive/detail/comment', 'ContactDetailController@comment')->name('contact.archive.detail.comment');
