@@ -21,7 +21,7 @@ $(function () {
 
   // お問い合わせクリック
   $('.contact-archive-table tbody tr').on('click', function() {
-    var contact_id = $(this).find('.contact-id').text();
+    var contact_id = $(this).data('contactid');
     window.location.href = '/contact/archive/detail?id='+contact_id;
   });
 });

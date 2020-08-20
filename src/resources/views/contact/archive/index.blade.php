@@ -24,7 +24,7 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <!-- <th scope="col">ID</th> -->
                     <th scope="col">対応状況</th>
                     <th scope="col">氏名</th>
                     <th scope="col">電話番号</th>
@@ -40,8 +40,8 @@
                     </tr>
                 @else
                     @foreach ($contacts as $contact)
-                    <tr>
-                        <th class="contact-id">{{$contact->id}}</th>
+                    <tr data-contactid="{{$contact->id}}">
+                        <!-- <th class="contact-id">{{$contact->id}}</th> -->
                         <th>{{$contact->status}}</th>
                         <th>{{$contact->name}}</th>
                         <th>{{$contact->tel}}</th>

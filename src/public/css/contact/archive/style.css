@@ -56,3 +56,10 @@
   background-color: #fff;
   cursor: auto;
 }
+
+/* pagination */
+@media (max-width:575px) {
+  nav .pagination {
+    flex-wrap: wrap;
+  }
+}
