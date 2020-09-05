@@ -16,7 +16,9 @@ class ContactsController extends Controller
      */
     public function index()
     {
-        return view('contact.index');
+        return view('contact.index', [
+            'items' => Contact::$item,
+        ]);
     }
 
     /**
@@ -27,9 +29,6 @@ class ContactsController extends Controller
      */
     public function confirm(ContactsRequest $request)
     {
-        // バリデーション実行
-        $request->rules();
-
         // フォームから受け取った値取得
         $inputs = $request->all();
 
@@ -54,14 +53,7 @@ class ContactsController extends Controller
         $inputs = $request->all();
 
         // DB登録
-        Contact::create([
-            'name' => $inputs['name'],
-            'mail' => $inputs['mail'],
-            'tel' => $inputs['tel'],
-            'item' => $inputs['item'],
-            'body' => $inputs['body'],
-            'status' => '未対応',
-        ]);
+        Contact::setContactData($inputs);
 
         // 入力されたメールアドレスにメールを送信
         \Illuminate\Support\Facades\Mail::to($inputs['mail'])->send(new ContactSendmail($inputs));

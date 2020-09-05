@@ -13,7 +13,7 @@ class ContactsTableSeeder extends Seeder
      */
     public function run()
     {
-        // 10000件作成
+        // 1000件作成
         factory(Contact::class, 1000)->create();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Contact;
 
 class ContactsRequest extends FormRequest
 {
@@ -27,10 +28,23 @@ class ContactsRequest extends FormRequest
             'name' => 'required|string|max:16',
             'mail' => 'required|string|email|max:200',
             'tel' => 'required|regex:/^[0-9]+$/|max:12',
-            'item' => 'required|string|max:16',
+            'item' => [
+                'required',
+                'string',
+                'max:16',
+                function ($attribute, $value, $fail) {
+                    $item = Contact::$item;
+                    $has_item = false;
+                    for ($i=0; $i < count($item); $i++) {
+                        if ($item[$i] === $value) {
+                            $has_item = true;
+                            break;
+                        }
+                    }
+                    if(!$has_item) return $fail('商品種別の値が正しくありません');
+                }
+            ],
             'body' => 'required|string|max:2000',
-            // 'status' => 'string|max:16',
-            // 'created_at' => 'required|datetime',
         ];
     }
 

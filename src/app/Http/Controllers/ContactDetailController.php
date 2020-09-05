@@ -33,24 +33,19 @@ class ContactDetailController extends Controller
     {
         // パラメータ取得
         $params['id'] = $request->id;
+        $request->session()->put('id', $params['id']);
 
         // contact_idが一致するレコード取得
-        // SELECT contacts.*, users.email FROM contacts LEFT JOIN users ON users.id = contacts.user_id WHERE contacts.id = ?
-        $contact = Contact::select('contacts.*', 'users.email')->where('contacts.id', '=', $params['id'])
-                    ->leftJoin('users', 'users.id', '=', 'contacts.user_id')->first();
+        $contact = Contact::getContactDetailIndex($params);
 
         // contact_idと一致するmessagesテーブルのレコード取得
-        // SELECT messages.*, users.email FROM messages INNER JOIN users ON users.id = messages.user_id WHERE contact_id = ? ORDER BY messages.id
-        $messages = Message::select('messages.*', 'users.email')->where('contact_id', '=', $params['id'])
-                    ->join('users', 'users.id', '=', 'messages.user_id')->orderBy('id', 'asc')->get();
+        $messages = Message::getContactDetailIndex($params);
 
         // contact_idと一致するcommentsテーブルのレコード取得
-        $comments = Comment::select('comments.*', 'users.email')->where('contact_id', '=', $params['id'])
-        ->join('users', 'users.id', '=', 'comments.user_id')->orderBy('id', 'asc')->get();
+        $comments = Comment::getContactDetailIndex($params);
 
         return view('contact.archive.detail.index', [
             'contact' => $contact,
-            'param_id' => $params['id'],
             'messages' => $messages,
             'comments' => $comments,
         ]);
@@ -65,10 +60,10 @@ class ContactDetailController extends Controller
     public function start(Request $request)
     {
         // パラメータ取得
-        $params['id'] = $request->id;
+        $params['id'] = $request->session()->get('id');
 
         // statusを対応中に更新し、user_idに操作したユーザーを登録
-        Contact::where('id', '=', $params['id'])->update(['status' => '対応中', 'user_id' => Auth::id()]);
+        Contact::setStatusStart($params, Auth::id());
 
         return redirect()->route('contact.archive.detail.index', [
             'id' => $params['id']
@@ -84,14 +79,10 @@ class ContactDetailController extends Controller
     public function returnStatus(Request $request)
     {
         // パラメータ取得
-        $params['id'] = $request->id;
+        $params['id'] = $request->session()->get('id');
 
         // 既に対応者が存在する場合、操作を行うユーザーが対応者と一致しているか
-        $db = Contact::select('user_id')->where('id', '=', $params['id'])->first();
-        if($db['user_id'] === Auth::id()) {
-            // statusを未対応に更新し、user_idをNULLにする
-            Contact::where('id', '=', $params['id'])->update(['status' => '未対応', 'user_id' => NULL]);
-        }
+        Contact::changeStatus($params, Auth::id(), '未対応');
 
         return redirect()->route('contact.archive.detail.index', [
             'id' => $params['id']
@@ -107,14 +98,10 @@ class ContactDetailController extends Controller
     public function complete(Request $request)
     {
         // パラメータ取得
-        $params['id'] = $request->id;
+        $params['id'] = $request->session()->get('id');
 
         // 既に対応者が存在する場合、操作を行うユーザーが対応者と一致しているか
-        $db = Contact::select('user_id')->where('id', '=', $params['id'])->first();
-        if($db['user_id'] === Auth::id()) {
-            // statusを対応済みに更新し、user_idをNULLにする
-            Contact::where('id', '=', $params['id'])->update(['status' => '対応済み', 'user_id' => NULL]);
-        }
+        Contact::changeStatus($params, Auth::id(), '対応済み');
 
         return redirect()->route('contact.archive.detail.index', [
             'id' => $params['id']
@@ -131,30 +118,26 @@ class ContactDetailController extends Controller
     {
         // フォームから受け取った値取得
         $inputs = $request->all();
+        $inputs['id'] = $request->session()->get('id');
 
         // 既に対応者が存在する場合、操作を行うユーザーが対応者と一致しているか
-        $db = Contact::select('user_id')->where('id', '=', $inputs['id'])->first();
-        if($db['user_id'] !== Auth::id()) {
+        if(!Contact::hasContactUser($inputs, Auth::id())) {
             // 異なるユーザーの場合はそのままリダイレクト
             return redirect()->route('contact.archive.detail.index', [
                 'id' => $inputs['id'],
             ]);
         }
 
-        // バリデーション実行
-        $request->rules();
-
         // DB登録
-        $db = Message::create([
-            'contact_id' => $inputs['id'],
-            'user_id' => Auth::id(),
-            'title' => $inputs['title'],
-            'body' => $inputs['body'],
-        ]);
+        // TODO:インスタンス化する
+        // $message = new Message;
+        // $message->setMessage($inputs, Auth::id());
+        $db = Message::setMessage($inputs, Auth::id());
+
+        // dd($message);
 
         // 送信先メールアドレスと送信者メールアドレスを取得
-        $email = Contact::select('contacts.mail as contact', 'users.email as user')->where('contacts.id', '=', $inputs['id'])
-        ->leftJoin('users', 'users.id', '=', 'contacts.user_id')->first();
+        $email = Contact::getContactEmail($inputs);
 
         // メール送信
         \Illuminate\Support\Facades\Mail::to($email['contact'])->send(new ContactDetailSendmail($inputs, $email['user']));
@@ -162,7 +145,7 @@ class ContactDetailController extends Controller
         // 元のページにリダイレクト
         return redirect()->route('contact.archive.detail.index', [
             'id' => $inputs['id'],
-            '#m'.$db->id,
+            '#m'.$db->id
         ]);
     }
 
@@ -176,25 +159,18 @@ class ContactDetailController extends Controller
     {
         // フォームから受け取った値取得
         $inputs = $request->all();
+        $inputs['id'] = $request->session()->get('id');
 
         // 既に対応者が存在する場合、操作を行うユーザーが対応者と一致しているか
-        $db = Contact::select('user_id')->where('id', '=', $inputs['id'])->first();
-        if($db['user_id'] !== Auth::id()) {
+        if(!Contact::hasContactUser($inputs, Auth::id())) {
             // 異なるユーザーの場合はそのままリダイレクト
             return redirect()->route('contact.archive.detail.index', [
                 'id' => $inputs['id'],
             ]);
         }
 
-        // バリデーション実行
-        $request->rules();
-
         // DB登録
-        $db = Comment::create([
-            'contact_id' => $inputs['id'],
-            'user_id' => Auth::id(),
-            'body' => $inputs['comment_body'],
-        ]);
+        $db = Comment::setComment($inputs, Auth::id());
 
         // 元のページにリダイレクト
         return redirect()->route('contact.archive.detail.index', [

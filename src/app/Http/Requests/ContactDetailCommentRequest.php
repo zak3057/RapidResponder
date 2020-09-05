@@ -24,7 +24,6 @@ class ContactDetailCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|integer',
             'comment_body' => 'required|string|max:4000',
         ];
     }
@@ -37,9 +36,6 @@ class ContactDetailCommentRequest extends FormRequest
     public function messages()
     {
         return [
-            'id.required' => '不正な入力です。',
-            'id.integer' => '不正な入力です。',
-
             'comment_body.required' => '本文を入力してください。',
             'comment_body.string' => '不正な入力です。',
             'comment_body.max' => '本文は4000文字以内で入力してください。',

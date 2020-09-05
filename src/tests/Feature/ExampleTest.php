@@ -8,14 +8,18 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ExampleTest extends TestCase
 {
     /**
-     * A basic test example.
+     * statusが正しいか
      *
      * @return void
      */
-    public function testBasicTest()
+    public function testStatus()
     {
         $response = $this->get('/');
-
         $response->assertStatus(200);
     }
+
+    // public function FunctionName(Type $var = null)
+    // {
+    //     # code...
+    // }
 }

@@ -28,8 +28,9 @@ class ContactArchiveController extends Controller
         $params['status'] = $request->status;
         if($params['status'] === NULL) $params['status'] = "未対応";
 
-        // statusが未対応のレコードをcreated_atが新しい順に10件取得
-        $contacts = Contact::where('status', '=', $params['status'])->orderBy('created_at', 'desc')->paginate(10)->appends($params);
+        // statusがパラメータと一致するレコードをcreated_atが新しい順に10件取得
+        $contacts = Contact::getContactArchive($params);
+
         // レコードをカウントし、0の場合falseを返す
         $record = true;
         if($contacts->count() === 0) $record=false;

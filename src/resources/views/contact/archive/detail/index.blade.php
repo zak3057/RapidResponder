@@ -3,18 +3,18 @@
 
 @section('content')
 <div class="container mt-5 mb-5">
-    <h1>お問い合わせ詳細</h1>
+    <h2>お問い合わせ詳細</h2>
 
     <div class="mt-4">
         @if($contact->status === '未対応')
-            <a class="btn btn-primary" href="{{ route('contact.archive.detail.start', ['id' => $param_id]) }}" role="button">対応開始</a>
+            <a class="btn btn-primary" href="{{ route('contact.archive.detail.start', ['id' => $contact->id]) }}" role="button">対応開始</a>
         @elseif($contact->status === '対応中')
             @if($contact->user_id === Auth::id())
-                <a class="btn btn-success" href="{{ route('contact.archive.detail.complete', ['id' => $param_id]) }}" role="button">処理済み</a>
-                <a class="btn btn-secondary" href="{{ route('contact.archive.detail.return', ['id' => $param_id]) }}" role="button">未対応に戻す</a>
+                <a class="btn btn-success" href="{{ route('contact.archive.detail.complete', ['id' => $contact->id]) }}" role="button">処理済み</a>
+                <a class="btn btn-secondary" href="{{ route('contact.archive.detail.return', ['id' => $contact->id]) }}" role="button">未対応に戻す</a>
             @endif
         @else
-            <a class="btn btn-secondary" href="{{ route('contact.archive.detail.start', ['id' => $param_id]) }}" role="button">対応中に戻す</a>
+            <a class="btn btn-secondary" href="{{ route('contact.archive.detail.start', ['id' => $contact->id]) }}" role="button">対応中に戻す</a>
         @endif
     </div>
 
@@ -111,8 +111,6 @@
                             @endif
                         </div>
 
-                        <input type="hidden" value="{{$contact->id}}" name="id">
-
                         <button type="submit" class="btn btn-primary">メールを送信</button>
                     </form>
                     @endif
@@ -158,8 +156,6 @@
                                 <small class="form-text text-danger">{{ $errors->first('comment_body') }}</small>
                             @endif
                         </div>
-
-                        <input type="hidden" value="{{$contact->id}}" name="id">
 
                         <button type="submit" class="btn btn-primary">コメントを登録</button>
                     </form>

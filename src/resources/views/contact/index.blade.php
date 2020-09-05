@@ -37,22 +37,9 @@
             <label for="exampleFormControlSelect1">製品種別 <small class="text-danger">(必須)</small></label>
             <select class="form-control" id="exampleFormControlSelect1" required name="item">
                 <option disabled selected>選択してください</option>
-                <option value="A001" @if(old('item')=='A001') selected  @endif>A001</option>
-                <option value="A002" @if(old('item')=='A002') selected  @endif>A002</option>
-                <option value="A003" @if(old('item')=='A003') selected  @endif>A003</option>
-                <option value="A004" @if(old('item')=='A004') selected  @endif>A004</option>
-                <option value="A005" @if(old('item')=='A005') selected  @endif>A005</option>
-                <option value="A006" @if(old('item')=='A006') selected  @endif>A006</option>
-                <option value="A007" @if(old('item')=='A007') selected  @endif>A007</option>
-                <option value="A008" @if(old('item')=='A008') selected  @endif>A008</option>
-                <option value="A009" @if(old('item')=='A009') selected  @endif>A009</option>
-                <option value="A010" @if(old('item')=='A010') selected  @endif>A010</option>
-                <option value="A011" @if(old('item')=='A011') selected  @endif>A011</option>
-                <option value="A012" @if(old('item')=='A012') selected  @endif>A012</option>
-                <option value="A013" @if(old('item')=='A013') selected  @endif>A013</option>
-                <option value="A014" @if(old('item')=='A014') selected  @endif>A014</option>
-                <option value="A015" @if(old('item')=='A015') selected  @endif>A015</option>
-                <option value="A016" @if(old('item')=='A016') selected  @endif>A016</option>
+                @for ($i = 0; $i < count($items); $i++)
+                    <option value="{{ $items[$i] }}" @if(old('item')==$items[$i]) selected @endif>{{ $items[$i] }}</option>
+                @endfor
             </select>
             @if ($errors->has('item'))
                 <small class="form-text text-danger">{{ $errors->first('item') }}</small>
